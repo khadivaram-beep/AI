@@ -2,7 +2,7 @@ import telebot
 import google.generativeai as genai
 
 # مقادیر اصلی
-BOT_TOKEN = 'توکن_بله_خودت_را_اینجا_بگذار' 
+BOT_TOKEN = '802549012:2SglERgmkafn0HTTh7w8fT304wREI_LUCFs' 
 GOOGLE_API_KEY = "AIzaSyDtTMrU6G8_ZJG5OXrQVCX-RE989YFn9s0"
 
 # تنظیمات هوش مصنوعی
