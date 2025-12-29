@@ -1,32 +1,29 @@
 import telebot
 import google.generativeai as genai
 
-# توکن بله و کلید گوگل
-BOT_TOKEN = 'توکن_بله_شما'
+# ۱. توکن بله را اینجا بگذار
+BOT_TOKEN = 'توکن_بله_خودت_را_اینجا_بنویس' 
+
+# ۲. کلید گوگل
 GOOGLE_API_KEY = "AIzaSyDtTMrU6G8_ZJG5OXrQVCX-RE989YFn9s0"
 
-# پیکربندی هوش مصنوعی
+# تنظیمات اصلی
 genai.configure(api_key=GOOGLE_API_KEY)
 model = genai.GenerativeModel('gemini-1.5-flash')
 bot = telebot.TeleBot(BOT_TOKEN)
 
 @bot.message_handler(commands=['start'])
 def welcome(message):
-    msg = (
-        "🤖 بازوی هوشمند متصل به Gemini 1.5\n"
-        "آماده پاسخگویی به سوالات شماست.\n\n"
-        "👨‍💻 طراحی شده توسط: علیرضا خدیور"
-    )
-    bot.reply_to(message, msg)
+    bot.reply_to(message, "سلام!\nمن یک هوش مصنوعی هستم.\n👨‍💻 طراحی شده توسط: علیرضا خدیور")
 
 @bot.message_handler(func=lambda message: True)
-def handle_ai(message):
+def chat(message):
     try:
-        # ارسال مستقیم به هوش مصنوعی و دریافت پاسخ
+        # ارسال مستقیم پیام به گوگل
         response = model.generate_content(message.text)
         bot.reply_to(message, response.text)
     except Exception as e:
-        bot.reply_to(message, "خطا در اتصال به هوش مصنوعی!")
+        bot.reply_to(message, "مشکلی در اتصال به هوش مصنوعی پیش آمد.")
 
-print("--- سیستم با موفقیت توسط علیرضا خدیور راه اندازی شد ---")
+print("🚀 ربات با موفقیت توسط علیرضا خدیور اجرا شد...")
 bot.polling()
