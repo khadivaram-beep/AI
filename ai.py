@@ -1,20 +1,27 @@
 import telebot
-import sys
+import google.generativeai as genai
 
-print("--- در حال تلاش برای روشن کردن ربات ---")
+# مقادیر اصلی
+BOT_TOKEN = 'توکن_بله_خودت_را_اینجا_بگذار' 
+GOOGLE_API_KEY = "AIzaSyDtTMrU6G8_ZJG5OXrQVCX-RE989YFn9s0"
 
-try:
-    # توکن بله را اینجا بگذار
-    token = '802549012:2SglERgmkafn0HTTh7w8fT304wREI_LUCFs' 
-    bot = telebot.TeleBot(token)
-    
-    @bot.message_handler(func=lambda message: True)
-    def echo(message):
-        print(f"پیام دریافت شد: {message.text}")
-        bot.reply_to(message, "سلام علیرضا! کد با موفقیت اجرا شد.")
+# تنظیمات هوش مصنوعی
+genai.configure(api_key=GOOGLE_API_KEY)
+model = genai.GenerativeModel('gemini-1.5-flash')
 
-    print("🚀 تبریک! ربات بدون مشکل روشن شد و منتظر پیام است...")
-    bot.polling(non_stop=True)
+# تنظیمات بله (اضافه کردن آدرس بله)
+bot = telebot.TeleBot(BOT_TOKEN, base_url="https://api.ble.ir/bot")
 
-except Exception as e:
-    print(f"❌ خطای فوری: {e}")
+@bot.message_handler(func=lambda message: True)
+def chat(message):
+    try:
+        # فرستادن پیام به هوش مصنوعی
+        response = model.generate_content(message.text)
+        # جواب هوش مصنوعی به کاربر در بله
+        bot.reply_to(message, response.text)
+        print(f"✅ پاسخ هوش مصنوعی ارسال شد به: {message.text}")
+    except Exception as e:
+        print(f"❌ خطا در پاسخگویی: {e}")
+
+print("🚀 هوش مصنوعی علیرضا در بله فعال شد!")
+bot.polling()
