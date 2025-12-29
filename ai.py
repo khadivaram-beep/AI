@@ -9,9 +9,9 @@ GOOGLE_API_KEY = "AIzaSyDtTMrU6G8_ZJG5OXrQVCX-RE989YFn9s0"
 genai.configure(api_key=GOOGLE_API_KEY)
 model = genai.GenerativeModel('gemini-1.5-flash')
 
-# ۳. تنظیمات بله (دقت کن آدرس دقیقاً همین باشد)
-bot = telebot.TeleBot(BOT_TOKEN)
+# ۳. تنظیمات بله (بدون اسلش اضافه و با حذف چک کردن اولیه)
 telebot.apihelper.API_URL = "https://api.ble.ir/bot{0}/{1}"
+bot = telebot.TeleBot(BOT_TOKEN, threaded=False)
 
 @bot.message_handler(func=lambda message: True)
 def chat(message):
@@ -23,6 +23,6 @@ def chat(message):
     except Exception as e:
         print(f"❌ خطا در پردازش: {e}")
 
-print("🚀 تبریک! ربات علیرضا بدون خطا روشن شد.")
-print("حالا برو توی بله و پیام بده...")
-bot.polling()
+print("🚀 ربات علیرضا آماده است...")
+# استفاده از skip_pending برای جلوگیری از هنگ کردن در شروع
+bot.polling(none_stop=True, skip_pending=True)
