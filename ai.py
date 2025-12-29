@@ -5,7 +5,7 @@ print("--- در حال تلاش برای روشن کردن ربات ---")
 
 try:
     # توکن بله را اینجا بگذار
-    token = 'توکن_بله_شما' 
+    token = '802549012:2SglERgmkafn0HTTh7w8fT304wREI_LUCFs' 
     bot = telebot.TeleBot(token)
     
     @bot.message_handler(func=lambda message: True)
